@@ -273,11 +273,11 @@ variable "health_check" {
 
 variable "lb_listener_rule_condition" {
   description = "The condition for the LB listener rule which is created when `enable_load_balanced` is set."
-  type        = map(string)
+  type        = object({field = string, values = list(string)})
 
   default = {
     field  = "path-pattern"
-    values = "/*"
+    values = ["/*"]
   }
 }
 
@@ -287,3 +287,7 @@ variable "ecs_services_dependencies" {
   default     = []
 }
 
+variable "local_registry_arn" {
+  description = "The arn of the local registry used for service discovery."
+  type = string
+}

@@ -144,12 +144,10 @@ resource "aws_lb_listener_rule" "default" {
     target_group_arn = aws_alb_target_group.target_group[0].arn
   }
 
-
-  dynamic "condition" {
-    for_each = [var.lb_listener_rule_condition]
-    content {
-      field  = condition.value["field"]
-      values = list(condition.value["values"])
+  condition {
+    # TODO: This assumes that the condition is always a path_pattern, but this should depend on the field value.
+    path_pattern {
+      values = var.lb_listener_rule_condition.values
     }
   }
 }
